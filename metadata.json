@@ -1,0 +1,6 @@
+{
+  "name": "Direito Fácil Angola",
+  "description": "Análise preliminar inteligente gratuita de situações jurídicas com base no ordenamento jurídico de Angola.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
