@@ -1521,7 +1521,7 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                       <div className="flex flex-wrap gap-2 mt-1">
                         {/* WhatsApp trigger button */}
                         <a
-                          href={`https://wa.me/${selectedLead.phone.replace(/\s+/g, "")}?text=Olá%20${encodeURIComponent(selectedLead.name)},%20sou%20o%20Dr.%20${encodeURIComponent(currentAdmin.name)}%20da%20Plataforma%20Diagnóstico%20Jurídico%20Angola.%20Recebi%20a%2520sua%20ficha%20prévia%20sobre%2520${encodeURIComponent(selectedLead.categoryLabel)}%20e%20gostaria%20de%20ajudar.`}
+                          href={`https://wa.me/${selectedLead.phone.replace(/\s+/g, "")}?text=Olá%20${encodeURIComponent(selectedLead.name)},%20sou%20o%20Dr.%20${encodeURIComponent(currentAdmin.name)}%20da%20Plataforma%20Direito%20Fácil%20Angola.%20Recebi%20a%2520sua%20ficha%20prévia%20sobre%2520${encodeURIComponent(selectedLead.categoryLabel)}%20e%20gostaria%20de%20ajudar.`}
                           target="_blank"
                           referrerPolicy="no-referrer"
                           className="flex-1 min-w-[140px] flex items-center justify-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold tracking-wider uppercase transition text-center"
