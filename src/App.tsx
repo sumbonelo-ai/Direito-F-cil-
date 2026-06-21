@@ -612,17 +612,17 @@ export default function App() {
   // Legal Disclaimer Gate Overlay
   if (!disclaimerAccepted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0d0707] via-black to-[#0a0a0d] flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans text-white">
-        {/* Abstract luxury legal graphic details */}
-        <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#da291c]/15 to-transparent pointer-events-none"></div>
-        <div className="absolute -top-1/4 -right-1/10 opacity-[0.03] select-none pointer-events-none">
-          <Scale className="w-[800px] h-[800px] text-[#c5a85c]" />
+      <div className="min-h-screen bg-gradient-to-br from-[#1a0505] via-[#2d0a0a] to-[#0f0202] flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans text-white">
+        {/* Abstract dark red graphic details for atmosphere */}
+        <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#881313]/25 to-transparent pointer-events-none"></div>
+        <div className="absolute -top-1/4 -right-1/10 opacity-[0.04] select-none pointer-events-none">
+          <Scale className="w-[800px] h-[800px] text-white" />
         </div>
         
-        <div className="max-w-xl w-full bg-[#0d0d0d] border-2 border-[#c5a85c]/60 rounded-3xl p-6 md:p-10 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] border-b-8 border-b-[#da291c]">
+        <div className="max-w-xl w-full bg-[#1e0707] border-2 border-white rounded-3xl p-6 md:p-10 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] border-b-8 border-b-white backdrop-blur-md">
           
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="w-16 h-16 bg-slate-900 border border-[#c5a85c]/50 rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(197,168,92,0.25)] flex items-center justify-center p-0.5">
+            <div className="w-16 h-16 bg-white border border-[#881313] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center justify-center p-0.5">
               <img 
                 src={appLogo} 
                 alt="Logo Direito Fácil Angola" 
@@ -631,63 +631,63 @@ export default function App() {
               />
             </div>
 
-            <h2 className="text-2xl md:text-3xl font-serif font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-white to-[#c5a85c]">
+            <h2 className="text-2xl md:text-3xl font-serif font-black tracking-tight text-white">
               Direito Fácil Angola
             </h2>
             
-            <div className="flex items-center gap-2 px-3 py-1 bg-red-950/40 border border-red-900/60 text-red-400 rounded-full text-[10px] md:text-[11px] font-bold tracking-wider uppercase font-mono">
-              <ShieldAlert className="w-3.5 h-3.5 shrink-0" /> Aviso de Isenção de Responsabilidade Legal
+            <div className="flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 text-white rounded-full text-[10px] md:text-[11px] font-bold tracking-wider uppercase font-mono">
+              <ShieldAlert className="w-3.5 h-3.5 shrink-0 text-white" /> Aviso de Isenção de Responsabilidade Legal
             </div>
           </div>
           
-          <div className="w-full h-px bg-[#c5a85c]/25 my-5"></div>
+          <div className="w-full h-px bg-white/20 my-5"></div>
           
-          <div className="space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed max-h-[350px] overflow-y-auto pr-1">
-            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl space-y-2">
-              <h4 className="font-bold text-[#c5a85c] font-serif flex items-center gap-1.5 text-xs sm:text-sm">
-                <Info className="w-4 h-4 text-amber-500 shrink-0" /> 1. Carácter Puramente Informativo
+          <div className="space-y-4 text-white text-xs sm:text-sm leading-relaxed max-h-[350px] overflow-y-auto pr-1">
+            <div className="p-3.5 bg-black/40 border border-white/10 rounded-xl space-y-2">
+              <h4 className="font-bold text-white font-serif flex items-center gap-1.5 text-xs sm:text-sm">
+                <Info className="w-4 h-4 text-white shrink-0" /> 1. Carácter Puramente Informativo
               </h4>
-              <p className="text-slate-400 text-xs text-justify">
+              <p className="text-slate-100 text-xs text-justify">
                 Este portal e as suas ferramentas inteligentes foram criados exclusivamente para fins didáticos, informativos e de orientação lúdica preliminar. Nenhuma informação ou diagnóstico automatizado obtido substitui uma análise profissional oficial.
               </p>
             </div>
 
-            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl space-y-2">
-              <h4 className="font-bold text-[#c5a85c] font-serif flex items-center gap-1.5 text-xs sm:text-sm">
-                <Scale className="w-4 h-4 text-[#c5a85c] shrink-0" /> 2. Obrigatoriedade de Consulta Oficial (OAA)
+            <div className="p-3.5 bg-black/40 border border-white/10 rounded-xl space-y-2">
+              <h4 className="font-bold text-white font-serif flex items-center gap-1.5 text-xs sm:text-sm">
+                <Scale className="w-4 h-4 text-white shrink-0" /> 2. Obrigatoriedade de Consulta Oficial (OAA)
               </h4>
-              <p className="text-slate-400 text-xs text-justify">
-                Perante qualquer lide, contenda jurídica ou assinatura de atos com eficácia jurídica em Angola, é <strong className="text-white">obrigatória</strong> e imperativa a consulta, representação técnica e validação final de um advogado devidamente credenciado e inscrito na <strong className="text-white">Ordem dos Advogados de Angola (OAA)</strong> ou assistência jurídica do <strong className="text-white">IPAJ</strong>.
+              <p className="text-slate-100 text-xs text-justify">
+                Perante qualquer lide, contenda jurídica ou assinatura de atos com eficácia jurídica em Angola, é <strong className="text-white underline decoration-white-200">obrigatória</strong> e imperativa a consulta, representação técnica e validação final de um advogado devidamente credenciado e inscrito na <strong className="text-white">Ordem dos Advogados de Angola (OAA)</strong> ou assistência jurídica do <strong className="text-white">IPAJ</strong>.
               </p>
             </div>
 
-            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl space-y-2">
-              <h4 className="font-bold text-[#c5a85c] font-serif flex items-center gap-1.5 text-xs sm:text-sm">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> 3. Dinamicidade da Legislação Angolana
+            <div className="p-3.5 bg-black/40 border border-white/10 rounded-xl space-y-2">
+              <h4 className="font-bold text-white font-serif flex items-center gap-1.5 text-xs sm:text-sm">
+                <AlertCircle className="w-4 h-4 text-white shrink-0" /> 3. Dinamicidade da Legislação Angolana
               </h4>
-              <p className="text-slate-400 text-xs text-justify">
+              <p className="text-slate-100 text-xs text-justify">
                 A legislação da República de Angola encontra-se em constante transformação e aperfeiçoamento. Embora façamos todos os esforços para incorporar as melhores práticas com base no Código de Família e na nova Lei Geral do Trabalho (LGT - Lei n.º 12/23), a plataforma não garante a isenção de desatualizações ou erros informáticos temporários.
               </p>
             </div>
             
-            <div className="p-3 text-slate-500 text-[10px] sm:text-xs italic text-center leading-relaxed">
+            <div className="p-3 text-slate-200 text-[10px] sm:text-xs italic text-center leading-relaxed">
               Ao continuar, o utilizador assume total responsabilidade pelo uso das informações providenciadas e isenta a plataforma de quaisquer ações judiciais futuras.
             </div>
           </div>
 
-          <div className="w-full h-px bg-[#c5a85c]/25 my-5"></div>
+          <div className="w-full h-px bg-white/20 my-5"></div>
 
           <button
             onClick={() => {
               setDisclaimerAccepted(true);
               localStorage.setItem("angola_legal_disclaimer_accepted", "true");
             }}
-            className="w-full py-4 px-6 bg-gradient-to-r from-[#da291c] to-[#a81c12] hover:from-[#f03a2e] hover:to-[#be2217] text-white font-serif font-bold rounded-2xl tracking-wide transition-all duration-300 transform hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer shadow-[0_10px_25px_rgba(218,41,28,0.25)]"
+            className="w-full py-4 px-6 bg-white hover:bg-slate-100 text-[#1e0707] font-serif font-black rounded-2xl tracking-wide transition-all duration-300 transform hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer shadow-[0_10px_25px_rgba(255,255,255,0.15)]"
           >
-            <CheckCircle className="w-5 h-5 shrink-0 text-white" /> Compreendo e Aceito os Termos
+            <CheckCircle className="w-5 h-5 shrink-0 text-[#1e0707]" /> Compreendo e Aceito os Termos
           </button>
 
-          <div className="text-[10px] text-slate-500 font-mono tracking-widest mt-4 text-center uppercase">
+          <div className="text-[10px] text-white/70 font-mono tracking-widest mt-4 text-center uppercase">
             Huíla • República de Angola
           </div>
         </div>
@@ -698,16 +698,16 @@ export default function App() {
   // Language Selection Gate Overlay
   if (!selectedLanguage) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0d0707] via-black to-[#0a0a0d] flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans text-white">
-        {/* Abstract luxury legal graphic details */}
-        <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#da291c]/15 to-transparent pointer-events-none"></div>
-        <div className="absolute -top-1/4 -right-1/10 opacity-[0.03] select-none pointer-events-none">
-          <Scale className="w-[800px] h-[800px] text-[#c5a85c]" />
+      <div className="min-h-screen bg-gradient-to-br from-[#1a0505] via-[#2d0a0a] to-[#0f0202] flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans text-white">
+        {/* Abstract dark red graphic details for atmosphere */}
+        <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#881313]/25 to-transparent pointer-events-none"></div>
+        <div className="absolute -top-1/4 -right-1/10 opacity-[0.04] select-none pointer-events-none">
+          <Scale className="w-[800px] h-[800px] text-white" />
         </div>
         
-        <div className="max-w-xl w-full bg-[#0d0d0d] border-2 border-[#c5a85c]/60 rounded-3xl p-8 md:p-12 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] text-center flex flex-col items-center gap-6 border-b-8 border-b-[#da291c]">
+        <div className="max-w-xl w-full bg-[#1e0707] border-2 border-white rounded-3xl p-8 md:p-12 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] text-center flex flex-col items-center gap-6 border-b-8 border-b-white backdrop-blur-md">
           
-          <div className="w-20 h-20 bg-slate-900 border-2 border-[#c5a85c] rounded-2xl overflow-hidden shadow-[0_0_25px_rgba(197,168,92,0.3)] mb-1 flex items-center justify-center p-1 transform scale-102">
+          <div className="w-20 h-20 bg-white border-2 border-[#881313] rounded-2xl overflow-hidden shadow-[0_0_25px_rgba(255,255,255,0.15)] mb-1 flex items-center justify-center p-1 transform scale-102">
             <img 
               src={appLogo} 
               alt="Logo Direito Fácil Angola" 
@@ -716,16 +716,16 @@ export default function App() {
             />
           </div>
 
-          <h2 className="text-2.5xl md:text-3xl font-serif font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-white to-[#c5a85c]">
+          <h2 className="text-2.5xl md:text-3xl font-serif font-black tracking-tight text-white">
             Direito Fácil Angola
           </h2>
           
-          <div className="w-12 h-0.5 bg-[#c5a85c]/30 rounded-full"></div>
+          <div className="w-12 h-0.5 bg-white/20 rounded-full"></div>
           
-          <h3 className="text-sm md:text-base font-semibold text-slate-300 font-serif leading-relaxed max-w-sm">
+          <h3 className="text-sm md:text-base font-bold text-white font-serif leading-relaxed max-w-sm">
             Selecione o seu Idioma / Choose your Language / Sola ocihundu cove
           </h3>
-          <p className="text-[11px] sm:text-xs text-slate-400 font-sans leading-relaxed max-w-sm">
+          <p className="text-[11px] sm:text-xs text-slate-200 font-sans leading-relaxed max-w-sm">
             Bem-vindo ao portal de orientação jurídica angolana. Escolha o seu idioma oficial ou idioma nacional para receber análises adaptadas.
           </p>
 
@@ -737,23 +737,23 @@ export default function App() {
                   setSelectedLanguage(lang.code);
                   localStorage.setItem("angola_legal_selected_lang", lang.code);
                 }}
-                className="w-full text-left bg-white/[0.02] hover:bg-white/[0.07] border border-white/10 hover:border-[#c5a85c]/90 rounded-2xl p-4 transition-all duration-300 flex items-center justify-between cursor-pointer group shadow-sm hover:translate-y-[-1px]"
+                className="w-full text-left bg-black/40 hover:bg-black/60 border border-white/20 hover:border-white rounded-2xl p-4 transition-all duration-300 flex items-center justify-between cursor-pointer group shadow-sm hover:translate-y-[-1px]"
               >
                 <div className="flex items-center gap-4">
                   <span className="text-2.5xl filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] shrink-0">{lang.flag}</span>
                   <div className="flex flex-col">
                     <span className="text-[14px] font-bold text-white font-serif tracking-wide">{lang.nativeName}</span>
-                    <span className="text-[10px] text-slate-400 font-mono italic">{lang.name}</span>
+                    <span className="text-[10px] text-slate-300 font-mono italic">{lang.name}</span>
                   </div>
                 </div>
-                <div className="w-6 h-6 rounded-full border border-white/20 group-hover:border-[#c5a85c] flex items-center justify-center transition-all bg-black/40 shrink-0">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#c5a85c] opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100"></div>
+                <div className="w-6 h-6 rounded-full border border-white/35 group-hover:border-white flex items-center justify-center transition-all bg-black/40 shrink-0">
+                  <div className="w-2.5 h-2.5 rounded-full bg-white opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100"></div>
                 </div>
               </button>
             ))}
           </div>
 
-          <div className="text-[9px] text-slate-500 font-mono tracking-widest mt-2 uppercase">
+          <div className="text-[10px] text-white/70 font-mono tracking-widest mt-2 uppercase">
             Huíla • República de Angola
           </div>
         </div>
