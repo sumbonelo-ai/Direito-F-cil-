@@ -75,6 +75,11 @@ const CITIZEN_PROBLEMS = [
 ];
 
 export default function App() {
+  // Legal Disclaimer Accepted State
+  const [disclaimerAccepted, setDisclaimerAccepted] = useState<boolean>(() => {
+    return localStorage.getItem("angola_legal_disclaimer_accepted") === "true";
+  });
+
   // Language Support State
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(() => {
     return localStorage.getItem("angola_legal_selected_lang") || null;
@@ -603,6 +608,92 @@ export default function App() {
   const handlePrint = () => {
     window.print();
   };
+
+  // Legal Disclaimer Gate Overlay
+  if (!disclaimerAccepted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0d0707] via-black to-[#0a0a0d] flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans text-white">
+        {/* Abstract luxury legal graphic details */}
+        <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#da291c]/15 to-transparent pointer-events-none"></div>
+        <div className="absolute -top-1/4 -right-1/10 opacity-[0.03] select-none pointer-events-none">
+          <Scale className="w-[800px] h-[800px] text-[#c5a85c]" />
+        </div>
+        
+        <div className="max-w-xl w-full bg-[#0d0d0d] border-2 border-[#c5a85c]/60 rounded-3xl p-6 md:p-10 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] border-b-8 border-b-[#da291c]">
+          
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="w-16 h-16 bg-slate-900 border border-[#c5a85c]/50 rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(197,168,92,0.25)] flex items-center justify-center p-0.5">
+              <img 
+                src={appLogo} 
+                alt="Logo Direito Fácil Angola" 
+                className="w-full h-full object-cover rounded-xl" 
+                referrerPolicy="no-referrer"
+              />
+            </div>
+
+            <h2 className="text-2xl md:text-3xl font-serif font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-white to-[#c5a85c]">
+              Direito Fácil Angola
+            </h2>
+            
+            <div className="flex items-center gap-2 px-3 py-1 bg-red-950/40 border border-red-900/60 text-red-400 rounded-full text-[10px] md:text-[11px] font-bold tracking-wider uppercase font-mono">
+              <ShieldAlert className="w-3.5 h-3.5 shrink-0" /> Aviso de Isenção de Responsabilidade Legal
+            </div>
+          </div>
+          
+          <div className="w-full h-px bg-[#c5a85c]/25 my-5"></div>
+          
+          <div className="space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed max-h-[350px] overflow-y-auto pr-1">
+            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl space-y-2">
+              <h4 className="font-bold text-[#c5a85c] font-serif flex items-center gap-1.5 text-xs sm:text-sm">
+                <Info className="w-4 h-4 text-amber-500 shrink-0" /> 1. Carácter Puramente Informativo
+              </h4>
+              <p className="text-slate-400 text-xs text-justify">
+                Este portal e as suas ferramentas inteligentes foram criados exclusivamente para fins didáticos, informativos e de orientação lúdica preliminar. Nenhuma informação ou diagnóstico automatizado obtido substitui uma análise profissional oficial.
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl space-y-2">
+              <h4 className="font-bold text-[#c5a85c] font-serif flex items-center gap-1.5 text-xs sm:text-sm">
+                <Scale className="w-4 h-4 text-[#c5a85c] shrink-0" /> 2. Obrigatoriedade de Consulta Oficial (OAA)
+              </h4>
+              <p className="text-slate-400 text-xs text-justify">
+                Perante qualquer lide, contenda jurídica ou assinatura de atos com eficácia jurídica em Angola, é <strong className="text-white">obrigatória</strong> e imperativa a consulta, representação técnica e validação final de um advogado devidamente credenciado e inscrito na <strong className="text-white">Ordem dos Advogados de Angola (OAA)</strong> ou assistência jurídica do <strong className="text-white">IPAJ</strong>.
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-white/[0.02] border border-white/5 rounded-xl space-y-2">
+              <h4 className="font-bold text-[#c5a85c] font-serif flex items-center gap-1.5 text-xs sm:text-sm">
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" /> 3. Dinamicidade da Legislação Angolana
+              </h4>
+              <p className="text-slate-400 text-xs text-justify">
+                A legislação da República de Angola encontra-se em constante transformação e aperfeiçoamento. Embora façamos todos os esforços para incorporar as melhores práticas com base no Código de Família e na nova Lei Geral do Trabalho (LGT - Lei n.º 12/23), a plataforma não garante a isenção de desatualizações ou erros informáticos temporários.
+              </p>
+            </div>
+            
+            <div className="p-3 text-slate-500 text-[10px] sm:text-xs italic text-center leading-relaxed">
+              Ao continuar, o utilizador assume total responsabilidade pelo uso das informações providenciadas e isenta a plataforma de quaisquer ações judiciais futuras.
+            </div>
+          </div>
+
+          <div className="w-full h-px bg-[#c5a85c]/25 my-5"></div>
+
+          <button
+            onClick={() => {
+              setDisclaimerAccepted(true);
+              localStorage.setItem("angola_legal_disclaimer_accepted", "true");
+            }}
+            className="w-full py-4 px-6 bg-gradient-to-r from-[#da291c] to-[#a81c12] hover:from-[#f03a2e] hover:to-[#be2217] text-white font-serif font-bold rounded-2xl tracking-wide transition-all duration-300 transform hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer shadow-[0_10px_25px_rgba(218,41,28,0.25)]"
+          >
+            <CheckCircle className="w-5 h-5 shrink-0 text-white" /> Compreendo e Aceito os Termos
+          </button>
+
+          <div className="text-[10px] text-slate-500 font-mono tracking-widest mt-4 text-center uppercase">
+            Huíla • República de Angola
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Language Selection Gate Overlay
   if (!selectedLanguage) {
