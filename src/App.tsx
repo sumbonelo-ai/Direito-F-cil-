@@ -1137,7 +1137,7 @@ export default function App() {
                       ⚖️ {t("app_title") || "Direito Fácil Angola"} • {t("jurisdiction_value") || "Huíla | Angola"}
                     </span>
                     
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-black leading-tight tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-serif font-black leading-tight tracking-tight">
                       {t("welcome_title_start") || "Está a deixar"}{" "}
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-100 via-white to-red-150">
                         {t("welcome_title_mid1") || "dinheiro"}
@@ -1178,7 +1178,7 @@ export default function App() {
 
                     <button
                       onClick={() => setShowProblemsList(true)}
-                      className="w-full max-w-md px-6 py-4.5 bg-white text-[#5c0608] hover:bg-slate-50 hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] rounded-xl font-serif font-black text-center text-sm md:text-base uppercase tracking-wider transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 cursor-pointer group mt-2 border-b-2 border-slate-300 shadow-md animate-bounce"
+                      className="w-full max-w-md px-6 py-4 bg-white text-[#5c0608] hover:bg-slate-50 hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] rounded-xl font-serif font-black text-center text-sm md:text-base uppercase tracking-wider transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 cursor-pointer group mt-2 border-b-2 border-slate-300 shadow-md animate-bounce"
                     >
                       <span>{t("discover_rights_btn") || "Descobrir Seus Direitos Agora"}</span>
                       <ChevronRight className="w-5 h-5 group-hover:translate-x-1.5 transition shrink-0" />

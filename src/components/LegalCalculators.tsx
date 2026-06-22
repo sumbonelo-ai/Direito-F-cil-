@@ -808,7 +808,7 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
                 {tc("rescisao_desc")}
               </p>
 
-              <form onSubmit={handleCalculateRescisao} className="grid sm:grid-cols-2 gap-4 mt-2">
+              <form onSubmit={handleCalculateRescisao} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                 <div className="flex flex-col gap-1.5 animate-fade-in">
                   <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">{tc("salario_base")}</label>
                   <input
@@ -962,7 +962,7 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
                 {tc("pensao_desc")}
               </p>
 
-              <form onSubmit={handleCalculatePensao} className="grid sm:grid-cols-2 gap-4 mt-2">
+              <form onSubmit={handleCalculatePensao} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                 <div className="flex flex-col gap-1.5 col-span-2">
                   <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">{tc("rendimento_provedor")}</label>
                   <input
@@ -1076,7 +1076,7 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
                 {tc("juros_desc")}
               </p>
 
-              <form onSubmit={handleCalculateJuros} className="grid sm:grid-cols-2 gap-4 mt-2">
+              <form onSubmit={handleCalculateJuros} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                 <div className="flex flex-col gap-1.5 animate-fade-in">
                   <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">{tc("principal")}</label>
                   <input
@@ -1194,7 +1194,7 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
                 {tc("atraso_desc")}
               </p>
 
-              <form onSubmit={handleCalculateAtraso} className="grid sm:grid-cols-2 gap-4 mt-2">
+              <form onSubmit={handleCalculateAtraso} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                 <div className="flex flex-col gap-1.5 animate-fade-in">
                   <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">{tc("salario_liquido")}</label>
                   <input
