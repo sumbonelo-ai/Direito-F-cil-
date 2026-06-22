@@ -771,7 +771,7 @@ export default function App() {
           <Scale className="w-[800px] h-[800px] text-white" />
         </div>
         
-        <div className="max-w-xl w-full bg-[#1e0707] border-2 border-white rounded-3xl p-6 md:p-10 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] border-b-8 border-b-white backdrop-blur-md">
+        <div className="max-w-xl w-full bg-[#1e0707] border-2 border-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] border-b-8 border-b-white backdrop-blur-md">
           
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="w-16 h-16 bg-white border border-[#881313] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center justify-center p-0.5">
@@ -857,7 +857,7 @@ export default function App() {
           <Scale className="w-[800px] h-[800px] text-white" />
         </div>
         
-        <div className="max-w-xl w-full bg-[#1e0707] border-2 border-white rounded-3xl p-8 md:p-12 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] text-center flex flex-col items-center gap-6 border-b-8 border-b-white backdrop-blur-md">
+        <div className="max-w-xl w-full bg-[#1e0707] border-2 border-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 relative z-10 shadow-[0_25px_60px_rgba(0,0,0,0.85)] text-center flex flex-col items-center gap-6 border-b-8 border-b-white backdrop-blur-md">
           
           <div className="w-20 h-20 bg-white border-2 border-[#881313] rounded-2xl overflow-hidden shadow-[0_0_25px_rgba(255,255,255,0.15)] mb-1 flex items-center justify-center p-1 transform scale-102">
             <img 
@@ -996,9 +996,9 @@ export default function App() {
           <div className="w-1/2 h-full bg-[#000000]"></div>
         </div>
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02),transparent)] pointer-events-none"></div>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 mb-4 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-14 h-14 bg-white border-2 border-white rounded-xl overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.25)] flex items-center justify-center p-0.5 transform hover:scale-105 transition-transform duration-300">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4 mb-4 relative z-10">
+          <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-3.5">
+            <div className="w-14 h-14 bg-white border-2 border-white rounded-xl overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.25)] flex items-center justify-center p-0.5 transform hover:scale-105 transition-transform duration-300 shrink-0 animate-fade-in">
               <img 
                 src={appLogo} 
                 alt="Logo Direito Fácil Angola" 
@@ -1006,14 +1006,14 @@ export default function App() {
                 referrerPolicy="no-referrer"
               />
             </div>
-            <div>
-              <div className="flex items-center gap-2.5">
-                <h1 className="text-2xl md:text-3xl font-serif font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-red-100 animate-fade-in">
+            <div className="flex flex-col items-center sm:items-start">
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-serif font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-red-100 animate-fade-in">
                   {t("app_title") || "Direito Fácil Angola"}
                 </h1>
                 <span className="text-[9px] bg-white border border-slate-200 text-[#5c0608] px-2 py-0.5 rounded-full font-mono font-bold tracking-wider uppercase shadow-sm">Pre-OAA</span>
               </div>
-              <p className="text-xs text-red-100/90 font-serif italic tracking-wide mt-0.5">
+              <p className="text-[11px] sm:text-xs text-red-100/90 font-serif italic tracking-wide mt-0.5 max-w-sm sm:max-w-md lg:max-w-none">
                 {t("app_subtitle") || "Portal Informativo de Orientação Legal e Simuladores sob as Leis de Angola"}
               </p>
             </div>
@@ -1064,43 +1064,43 @@ export default function App() {
         </div>
 
         {/* Global Navigation Tabs: Diagnosis vs Calculators */}
-        <div className="max-w-7xl mx-auto flex flex-wrap gap-2 md:gap-6 border-t border-white/10 pt-1 px-4 md:px-0">
+        <div className="max-w-7xl mx-auto flex flex-nowrap overflow-x-auto border-t border-white/10 pt-1 px-2 md:px-0 gap-1 md:gap-6 scrollbar-none [scrollbar-width:none]">
           <button
             id="nav-diagnosis-btn"
             onClick={() => setActiveScreen("diagnosis")}
-            className={`px-4 py-3 font-serif text-xs md:text-sm transition-all relative flex items-center gap-2 cursor-pointer ${
+            className={`px-3 md:px-4 py-3 font-serif text-xs md:text-sm transition-all relative flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
               activeScreen === "diagnosis"
-                ? "text-white font-bold border-b-2 border-white scale-102"
+                ? "text-white font-bold border-b-2 border-white scale-102 bg-white/5 md:bg-transparent rounded-t-lg md:rounded-none"
                 : "text-red-100/60 hover:text-white"
             }`}
           >
-            <Scale className="w-4 h-4 text-white" />
+            <Scale className="w-3.5 h-3.5 md:w-4 md:h-4 text-white shrink-0" />
             {t("nav_diagnosis") || "Diagnóstico de Casos AI"}
           </button>
 
           <button
             id="nav-calculators-btn"
             onClick={() => setActiveScreen("calculators")}
-            className={`px-4 py-3 font-serif text-xs md:text-sm transition-all relative flex items-center gap-2 cursor-pointer ${
+            className={`px-3 md:px-4 py-3 font-serif text-xs md:text-sm transition-all relative flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
               activeScreen === "calculators"
-                ? "text-white font-bold border-b-2 border-white scale-102"
+                ? "text-white font-bold border-b-2 border-white scale-102 bg-white/5 md:bg-transparent rounded-t-lg md:rounded-none"
                 : "text-red-100/60 hover:text-white"
             }`}
           >
-            <Calculator className="w-4 h-4 text-white" />
+            <Calculator className="w-3.5 h-3.5 md:w-4 md:h-4 text-white shrink-0" />
             {t("nav_calculators") || "Calculadoras Jurídicas"}
           </button>
 
           <button
             id="nav-admin-btn"
             onClick={() => setActiveScreen("admin")}
-            className={`px-4 py-3 font-serif text-xs md:text-sm transition-all relative flex items-center gap-2 sm:ml-auto cursor-pointer ${
+            className={`px-3 md:px-4 py-3 font-serif text-xs md:text-sm transition-all relative flex items-center justify-center gap-2 sm:ml-auto cursor-pointer whitespace-nowrap shrink-0 ${
               activeScreen === "admin"
-                ? "text-white font-bold border-b-2 border-white scale-102"
+                ? "text-white font-bold border-b-2 border-white scale-102 bg-white/5 md:bg-transparent rounded-t-lg md:rounded-none"
                 : "text-red-100/60 hover:text-red-200"
             }`}
           >
-            <Shield className="w-4 h-4 text-white" />
+            <Shield className="w-3.5 h-3.5 md:w-4 md:h-4 text-white shrink-0" />
             {t("nav_admin") || "Acesso Administrador"}
           </button>
         </div>
@@ -1211,7 +1211,7 @@ export default function App() {
                   </button>
                 </div>
 
-                <div id="problems-grid-section" className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-md transition-all duration-500 relative">
+                <div id="problems-grid-section" className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 md:p-8 shadow-md transition-all duration-500 relative">
                   {/* Thin Angola National colors design bar */}
                   <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#da291c] via-[#c5a85c] to-[#000000] rounded-t-2xl font-sans"></div>
                   
@@ -1232,7 +1232,7 @@ export default function App() {
                         id={`cat-select-${prob.id}`}
                         key={prob.id}
                         onClick={() => handleSelectCategory(prob.id as LegalCategory)}
-                        className="text-left bg-gradient-to-b from-white to-slate-50/80 hover:to-[#fdfafb] hover:border-[#991b1b] border-l-4 border-l-slate-400 hover:border-l-[#991b1b] border border-slate-200 rounded-xl p-5.5 transition-all duration-300 flex gap-4 cursor-pointer group shadow-sm hover:shadow-md hover:scale-[1.01]"
+                        className="text-left bg-gradient-to-b from-white to-slate-50/80 hover:to-[#fdfafb] hover:border-[#991b1b] border-l-4 border-l-slate-400 hover:border-l-[#991b1b] border border-slate-200 rounded-xl p-4 sm:p-5 transition-all duration-300 flex flex-col sm:flex-row gap-3.5 sm:gap-4 cursor-pointer group shadow-sm hover:shadow-md hover:scale-[1.01]"
                       >
                         <div className="p-3 bg-[#991b1b]/10 group-hover:bg-[#991b1b] text-[#991b1b] group-hover:text-white rounded-xl transition-all duration-300 self-start shrink-0 shadow-sm">
                           {renderCategoryIcon(prob.icon, "w-6 h-6")}
@@ -1312,7 +1312,7 @@ export default function App() {
               </div>
 
               {/* Tabs / Panels inside report */}
-              <div className="p-6 md:p-8 flex flex-col gap-6">
+              <div className="p-4 sm:p-6 md:p-8 flex flex-col gap-6">
                 
                 {(() => {
                   const { scoreValue, scoreText, valueText } = parseDiagnosisInfo(activeReport.diagnosisText, activeReport.category);
@@ -1475,7 +1475,7 @@ export default function App() {
                 </div>
 
                 {/* ADVOCATE CONVERSION TUNNEL BLOCK */}
-                <div id="lead-contact-form-block" className="bg-[#fdfafb] border-2 border-[#991b1b] rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 shadow-sm">
+                <div id="lead-contact-form-block" className="bg-[#fdfafb] border-2 border-[#991b1b] rounded-xl p-4 sm:p-6 md:p-8 flex flex-col lg:flex-row items-start gap-6 shadow-sm">
                   <div className="flex-1 flex flex-col gap-3 text-left">
                     <span className="text-[10px] bg-emerald-100 text-emerald-850 border border-emerald-300/60 px-2.5 py-0.5 rounded-full font-mono font-bold self-start uppercase tracking-wider">
                       {t("recomended_next_step") || "🎯 Próximo Passo Recomendado"}
@@ -1600,19 +1600,19 @@ export default function App() {
             </div>
           ) : (
             /* Selected Category: Display Specific Questionnaire */
-            <div className="bg-white border-2 border-slate-200/90 rounded-2xl p-6 md:p-8 shadow-md relative">
+            <div className="bg-white border-2 border-slate-200/90 rounded-2xl p-4 sm:p-6 md:p-8 shadow-md relative animate-fade-in">
               <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#da291c] via-[#c5a85c] to-[#000000] rounded-t-2xl"></div>
               
-              <div className="flex items-start gap-4 mb-6 border-b border-slate-100 pb-5 mt-2">
-                <div className="p-3 bg-[#08080a] text-[#c5a85c] rounded-2xl shadow-md border border-[#da291c]/30">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 mb-6 border-b border-slate-100 pb-5 mt-2">
+                <div className="p-3 bg-[#08080a] text-[#c5a85c] rounded-2xl shadow-md border border-[#da291c]/30 shrink-0">
                   {renderCategoryIcon(currentCategories[selectedCategory].icon, "w-6 h-6 animate-pulse")}
                 </div>
-                <div>
+                <div className="flex flex-col items-center sm:items-start">
                   <h3 className="text-xl md:text-2xl font-serif font-black text-slate-950">
                     {t("nav_diagnosis") || "Avaliação Preliminar"}: {currentCategories[selectedCategory].title}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1.5">
-                    {t("official_framework") || "Enquadramento Regulador Oficial"}:{" "}
+                  <p className="text-xs text-slate-500 mt-1.5 flex flex-wrap items-center justify-center sm:justify-start gap-1.5">
+                    <span>{t("official_framework") || "Enquadramento Regulador Oficial"}:</span>{" "}
                     <span className="text-[#c5a85c] font-bold font-mono bg-slate-50 px-2 py-0.5 rounded border border-slate-200/50">{currentCategories[selectedCategory].laws}</span>
                   </p>
                 </div>
