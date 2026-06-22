@@ -931,6 +931,15 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
                   <div className="bg-[#fdfafb] border border-[#991b1b]/30 text-slate-600 p-2 text-[10px] leading-relaxed rounded font-serif mt-2">
                     {tc("nota_rescisao")}
                   </div>
+
+                  <a
+                    href={`https://wa.me/244923000000?text=${encodeURIComponent(`Olá! Realizei uma simulação na Calculadora de Rescisão de Angola do portal Direito Fácil Angola. O meu cálculo provisório deu o valor total de *${formatKwanza(proporcionaisRescisao.totalRescisao)}*. Gostaria de validá-lo e obter ajuda técnica de um profissional credenciado na OAA!`)}`}
+                    target="_blank"
+                    referrerPolicy="no-referrer"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-750 hover:brightness-110 active:scale-95 text-white rounded font-sans font-bold text-[11px] uppercase tracking-wide transition shadow-sm hover:shadow cursor-pointer text-center mt-2"
+                  >
+                    💬 Tirar Dúvidas no WhatsApp
+                  </a>
                 </div>
               ) : (
                 <div className="flex-grow flex flex-col items-center justify-center text-center p-4">
@@ -1036,6 +1045,15 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
                       {tc("nota_pensao")}
                     </p>
                   </div>
+
+                  <a
+                    href={`https://wa.me/244923000000?text=${encodeURIComponent(`Olá! Realizei uma simulação na Calculadora de Pensão Alimentícia de Angola do Direito Fácil Angola. O valor sugerido mensal foi de *${formatKwanza(pensaoResult.valorSugerido)}* (${pensaoResult.percentagemSugerida}%). Gostaria de analisar o meu caso com um advogado credenciado!`)}`}
+                    target="_blank"
+                    referrerPolicy="no-referrer"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-750 hover:brightness-110 active:scale-95 text-white rounded font-sans font-bold text-[11px] uppercase tracking-wide transition shadow-sm hover:shadow cursor-pointer text-center mt-2.5"
+                  >
+                    💬 Tirar Dúvidas no WhatsApp
+                  </a>
                 </div>
               ) : (
                 <div className="flex-grow flex flex-col items-center justify-center text-center p-4">
@@ -1145,6 +1163,15 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
                   <div className="bg-slate-100 border border-slate-200 text-slate-600 p-2 text-[10px] leading-relaxed rounded font-serif mt-2">
                     {tc("nota_juros")}
                   </div>
+
+                  <a
+                    href={`https://wa.me/244923000000?text=${encodeURIComponent(`Olá! Realizei uma simulação na Calculadora de Juros e Dívidas do Direito Fácil Angola. O valor total calculado para amortizar é de *${formatKwanza(jurosResult.montanteTotal)}* (dos quais *${formatKwanza(jurosResult.jurosAcumulados)}* são juros de mora). Gostaria de obter ajuda profissional para contestar ou cobrar esta dívida!`)}`}
+                    target="_blank"
+                    referrerPolicy="no-referrer"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-750 hover:brightness-110 active:scale-95 text-white rounded font-sans font-bold text-[11px] uppercase tracking-wide transition shadow-sm hover:shadow cursor-pointer text-center mt-2.5"
+                  >
+                    💬 Tirar Dúvidas no WhatsApp
+                  </a>
                 </div>
               ) : (
                 <div className="flex-grow flex flex-col items-center justify-center text-center p-4">
@@ -1242,6 +1269,15 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
                       {tc("atraso_leve_alerta")}
                     </div>
                   )}
+
+                  <a
+                    href={`https://wa.me/244923000000?text=${encodeURIComponent(`Olá! Realizei uma simulação na Calculadora de Atraso Salarial de Angola do portal Direito Fácil Angola. A multa indemnizatória estimada foi de *${formatKwanza(atrasoResult.indemnizacaoArredondada)}*, totalizando *${formatKwanza(atrasoResult.totalAReceber)}* a receber. Gostaria de obter assistência técnica estratégica profissional!`)}`}
+                    target="_blank"
+                    referrerPolicy="no-referrer"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-750 hover:brightness-110 active:scale-95 text-white rounded font-sans font-bold text-[11px] uppercase tracking-wide transition shadow-sm hover:shadow cursor-pointer text-center mt-2.5"
+                  >
+                    💬 Tirar Dúvidas no WhatsApp
+                  </a>
                 </div>
               ) : (
                 <div className="flex-grow flex flex-col items-center justify-center text-center p-4">
