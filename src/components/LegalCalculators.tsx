@@ -795,7 +795,7 @@ export default function LegalCalculators({ userInfo, onRequireContact, langCode 
       </div>
 
       {/* Main calculation workspace area */}
-      <div className="p-6 md:p-8 flex flex-col lg:flex-row gap-8">
+      <div className="p-4 sm:p-6 md:p-8 flex flex-col lg:flex-row gap-6 lg:gap-8">
         
         {/* TAB 1: RESCISÃO TRABALHISTA */}
         {activeTab === "rescisao" && (

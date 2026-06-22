@@ -1967,7 +1967,7 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                   </p>
                 </div>
 
-                <div className="border border-slate-800 rounded-lg overflow-hidden bg-slate-900/40">
+                <div className="border border-slate-800 rounded-lg overflow-x-auto bg-slate-900/40">
                   <table className="w-full text-left text-xs text-slate-300">
                     <thead className="bg-slate-950 text-[10px] font-bold text-slate-400 border-b border-slate-800 uppercase tracking-wider">
                       <tr>
