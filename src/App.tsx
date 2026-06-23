@@ -926,62 +926,62 @@ export default function App() {
     if (selectedLanguage === "en") {
       if (activeReport.category === "laboral") {
         dynamicCtaWa = hasValueText 
-          ? `Garantir minha indenização de ${valueText} no WhatsApp` 
-          : "Falar com especialista e proteger meu emprego agora";
+          ? `Validate Severance Estimation of ${valueText} on WhatsApp` 
+          : "Schedule Technical Analysis of Labor Rights now";
         dynamicCtaFormSubmit = hasValueText
-          ? `Garantir minha indenização de ${valueText} agora com um especialista`
-          : "Falar com um especialista e proteger meu emprego em 5 minutos";
+          ? `Submit Calculation of ${valueText} for Expert Review`
+          : "Request Specialized Guidance on Labor Rights in 5 minutes";
       } else if (activeReport.category === "familia") {
         dynamicCtaWa = hasValueText 
-          ? `Garantir pensão de ${valueText} no WhatsApp` 
-          : "Falar com especialista em pensão infantil agora";
+          ? `Validate Child Support Estimate of ${valueText} on WhatsApp` 
+          : "Consult Family Law Specialist for Child Support Review now";
         dynamicCtaFormSubmit = hasValueText
-          ? `Garantir pensão de ${valueText} agora com especialista`
-          : "Falar com especialista e garantir amparo alimentar judicial";
+          ? `Submit Support Calculation of ${valueText} for Technical Assessment`
+          : "Request Family Law Support and Assessment Guidance";
       } else {
         dynamicCtaWa = hasValueText 
-          ? `Garantir meus direitos de ${valueText} no WhatsApp` 
-          : "Falar com especialista e garantir meus direitos";
+          ? `Validate Legal Assessment of ${valueText} on WhatsApp` 
+          : "Speak to Legal Specialist for Status Analysis now";
         dynamicCtaFormSubmit = hasValueText
-          ? `Garantir meus direitos de ${valueText} agora com especialista`
-          : "Falar com um especialista e proteger meus direitos em 5 minutos";
+          ? `Submit Right-to-Recover of ${valueText} for Expert Verification`
+          : "Request Technical Consultation and Protection Assessment in 5 minutes";
       }
     } else {
       if (activeReport.category === "laboral") {
         dynamicCtaWa = hasValueText 
-          ? `Garantir minha indenização de ${valueText} no WhatsApp` 
-          : "Falar com especialista e proteger meu emprego agora";
+          ? `Validar Cálculo de Indemnização de ${valueText} no WhatsApp` 
+          : "Agendar Análise Técnica de Direitos Laborais agora";
         dynamicCtaFormSubmit = hasValueText
-          ? `Garantir minha indenização de ${valueText} agora com um especialista`
-          : "Falar com um especialista e proteger meu emprego em 5 minutos";
+          ? `Submeter Cálculo de ${valueText} para Revisão por Especialista`
+          : "Solicitar Orientação Técnica sobre Contrato Laboral em 5 minutos";
       } else if (activeReport.category === "familia") {
         dynamicCtaWa = hasValueText 
-          ? `Garantir amparo alimentar de ${valueText} no WhatsApp` 
-          : "Falar com especialista em pensão em 5 minutos";
+          ? `Validar Cálculo de Pensão de ${valueText} no WhatsApp` 
+          : "Consultar Especialista para Orientação sobre Pensão de Alimentos";
         dynamicCtaFormSubmit = hasValueText
-          ? `Garantir pensão de ${valueText} agora com um especialista`
-          : "Falar com especialista e garantir amparo alimentar do meu filho";
+          ? `Submeter Cálculo de ${valueText} para Parecer Técnico de Pensão`
+          : "Solicitar Consulta de Pensão Alimentar com Especialista";
       } else if (activeReport.category === "imobiliario") {
         dynamicCtaWa = hasValueText
-          ? `Garantir devolução de ${valueText} no WhatsApp`
-          : "Falar com especialista e proteger meu contrato agora";
+          ? `Analisar Viabilidade do Cálculo de ${valueText} no WhatsApp`
+          : "Consultar Especialista sobre Contrato Imobiliário agora";
         dynamicCtaFormSubmit = hasValueText
-          ? `Garantir devolução de ${valueText} agora com um especialista`
-          : "Falar com especialista e proteger minha habitação em 5 minutos";
+          ? `Rever Estimativa de ${valueText} com Advogado Credenciado`
+          : "Solicitar Análise de Risco Contratual Imobiliário em 5 minutos";
       } else if (activeReport.category === "consumidor") {
         dynamicCtaWa = hasValueText
-          ? `Reaver reembolso de ${valueText} no WhatsApp`
-          : "Falar com especialista e reaver direitos de compra agora";
+          ? `Validar Direito ao Reembolso de ${valueText} no WhatsApp`
+          : "Analisar Direitos de Compra com Especialista agora";
         dynamicCtaFormSubmit = hasValueText
-          ? `Garantir reembolso de ${valueText} agora com um especialista`
-          : "Falar com especialista e exigir troca ou reembolso em 5 minutos";
+          ? `Submeter Cálculo de Reembolso de ${valueText} para Análise`
+          : "Solicitar Apoio Técnico para Troca ou Reembolso em 5 minutos";
       } else {
         dynamicCtaWa = hasValueText 
-          ? `Garantir meus direitos de ${valueText} no WhatsApp` 
-          : "Falar com especialista e proteger meus direitos agora";
+          ? `Validar Direitos de ${valueText} no WhatsApp` 
+          : "Consultar Especialista para Análise Jurídica agora";
         dynamicCtaFormSubmit = hasValueText
-          ? `Garantir meus direitos de ${valueText} agora com um especialista`
-          : "Falar com um especialista e proteger meus direitos em 5 minutos";
+          ? `Submeter Ficha de Direitos de ${valueText} para Revisão`
+          : "Solicitar Consulta Técnica e Prevenção Jurídica em 5 minutos";
       }
     }
   }
@@ -1319,7 +1319,7 @@ export default function App() {
                   const categoryRights = getCategoryRights(activeReport.category, selectedLanguage || "pt");
                   
                   // Construct a dynamic WhatsApp URL for this diagnosis right, making help extremely easy to get in 1-click!
-                  const cleanPhone = "244923000000"; // General Huila/Luanda support contact line
+                  const cleanPhone = "244955837497"; // User requested support number
                   const waMessage = `Olá! Realizei a simulação no portal Direito Fácil Angola para o meu caso de *${activeReport.categoryLabel}* (ID: ${activeReport.id}). As respostas preliminares apontam direito a receber o valor de *${valueText}*. Solicito verificação jurídica oficial por um advogado credenciado.`;
                   const waLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMessage)}`;
 
