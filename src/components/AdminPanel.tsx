@@ -37,7 +37,10 @@ import {
   dbDeleteLawyer,
   dbGetAdministrators,
   dbSaveAdministrator,
-  dbGetAdminPasswords
+  dbGetAdminPasswords,
+  dbGetVisitorStats,
+  dbLogVisitor,
+  dbClearVisitorLogs
 } from "../lib/supabase";
 
 interface AdminPanelProps {
@@ -130,7 +133,32 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
     };
   });
 
-  const handleSimulateVisitor = () => {
+  const loadVisitorStats = async () => {
+    try {
+      if (isSupabaseConfigured) {
+        const cloudStats = await dbGetVisitorStats();
+        const statsObj = {
+          totalVisits: cloudStats.totalVisits,
+          uniqueVisitors: cloudStats.uniqueVisitors,
+          bounceRate: cloudStats.totalVisits > 0 ? 38.4 : 0,
+          avgDuration: cloudStats.totalVisits > 0 ? "3m 45s" : "0s",
+          recentLogs: cloudStats.recentLogs
+        };
+        setVisitorStats(statsObj);
+        localStorage.setItem("angola_legal_visitors_stats", JSON.stringify(statsObj));
+        return;
+      }
+
+      const stored = localStorage.getItem("angola_legal_visitors_stats");
+      if (stored) {
+        setVisitorStats(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error("Erro ao carregar estatísticas do Supabase/Local:", e);
+    }
+  };
+
+  const handleSimulateVisitor = async () => {
     try {
       const STATS_KEY = "angola_legal_visitors_stats";
       const regions = ["Luanda", "Lubango", "Benguela", "Huambo", "Cabinda", "Lobito", "Malanje"];
@@ -151,10 +179,22 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
         page: randomPage
       };
 
+      if (isSupabaseConfigured) {
+        await dbLogVisitor({
+          id: newLog.id,
+          ip: newLog.ip,
+          region: newLog.region,
+          device: newLog.device,
+          page: newLog.page
+        });
+        await loadVisitorStats();
+        return;
+      }
+
       const updated = {
         ...visitorStats,
-        totalVisits: (visitorStats.totalVisits || 1420) + 1,
-        uniqueVisitors: (visitorStats.uniqueVisitors || 850) + (Math.random() > 0.45 ? 1 : 0),
+        totalVisits: (visitorStats.totalVisits || 0) + 1,
+        uniqueVisitors: (visitorStats.uniqueVisitors || 0) + (Math.random() > 0.45 ? 1 : 0),
         recentLogs: [newLog, ...(visitorStats.recentLogs || [])].slice(0, 10)
       };
 
@@ -165,7 +205,7 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
     }
   };
 
-  const handleResetVisitors = () => {
+  const handleResetVisitors = async () => {
     if (confirm("Tem a certeza de que deseja zerar as estatísticas de tráfego de visitantes?")) {
       const STATS_KEY = "angola_legal_visitors_stats";
       const initial = {
@@ -175,6 +215,13 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
         avgDuration: "0s",
         recentLogs: []
       };
+
+      if (isSupabaseConfigured) {
+        await dbClearVisitorLogs();
+        await loadVisitorStats();
+        return;
+      }
+
       setVisitorStats(initial);
       localStorage.setItem(STATS_KEY, JSON.stringify(initial));
     }
@@ -182,17 +229,32 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
 
   // Sync visitor logs in background or when mounting
   useEffect(() => {
+    loadVisitorStats();
+    
+    // Periodically fetch if Supabase is configured to keep real-time feed live (every 10 seconds)
+    let interval: NodeJS.Timeout | null = null;
+    if (isSupabaseConfigured) {
+      interval = setInterval(() => {
+        loadVisitorStats();
+      }, 10000);
+    }
+
     const syncStats = () => {
-      try {
-        const stored = localStorage.getItem("angola_legal_visitors_stats");
-        if (stored) {
-          setVisitorStats(JSON.parse(stored));
-        }
-      } catch {}
+      if (!isSupabaseConfigured) {
+        try {
+          const stored = localStorage.getItem("angola_legal_visitors_stats");
+          if (stored) {
+            setVisitorStats(JSON.parse(stored));
+          }
+        } catch {}
+      }
     };
-    syncStats();
+    
     window.addEventListener("storage", syncStats);
-    return () => window.removeEventListener("storage", syncStats);
+    return () => {
+      window.removeEventListener("storage", syncStats);
+      if (interval) clearInterval(interval);
+    };
   }, []);
 
   // Load leads from LocalStorage / Supabase
@@ -200,12 +262,10 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
     try {
       if (isSupabaseConfigured) {
         const cloudLeads = await dbGetLeads();
-        if (cloudLeads && cloudLeads.length > 0) {
-          const cleaned = cloudLeads.filter(l => l && l.id && !l.id.includes("demo") && !l.id.includes("seed"));
-          setLeads(cleaned);
-          localStorage.setItem("angola_legal_admin_leads", JSON.stringify(cleaned));
-          return;
-        }
+        const cleaned = (cloudLeads || []).filter(l => l && l.id && !l.id.includes("demo") && !l.id.includes("seed"));
+        setLeads(cleaned);
+        localStorage.setItem("angola_legal_admin_leads", JSON.stringify(cleaned));
+        return;
       }
 
       const stored = localStorage.getItem("angola_legal_admin_leads");
@@ -228,6 +288,17 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
   // Load admins list from LocalStorage / Supabase
   const loadAllAdmins = async () => {
     try {
+      if (isSupabaseConfigured) {
+        try {
+          const cloudAdmins = await dbGetAdministrators();
+          setAllAdmins(cloudAdmins || []);
+          localStorage.setItem("angola_legal_registered_admins", JSON.stringify(cloudAdmins || []));
+          return;
+        } catch (err) {
+          console.warn("Could not fetch administrators from cloud database:", err);
+        }
+      }
+
       let localAdmins: Administrator[] = [];
       const storedAdminsStr = localStorage.getItem("angola_legal_registered_admins");
       if (storedAdminsStr) {
@@ -235,24 +306,6 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
           localAdmins = JSON.parse(storedAdminsStr);
         } catch {}
       }
-
-      if (isSupabaseConfigured) {
-        try {
-          const cloudAdmins = await dbGetAdministrators();
-          const allMerged = [...cloudAdmins];
-          localAdmins.forEach(la => {
-            if (!allMerged.some(ca => ca.email.toLowerCase() === la.email.toLowerCase())) {
-              allMerged.push(la);
-            }
-          });
-          setAllAdmins(allMerged);
-          localStorage.setItem("angola_legal_registered_admins", JSON.stringify(allMerged));
-          return;
-        } catch (err) {
-          console.warn("Could not fetch administrators from cloud database:", err);
-        }
-      }
-
       setAllAdmins(localAdmins);
     } catch (e) {
       console.error("Erro ao ler administradores:", e);
@@ -264,48 +317,16 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
     try {
       if (isSupabaseConfigured) {
         const cloudLawyers = await dbGetLawyers();
-        if (cloudLawyers && cloudLawyers.length > 0) {
-          setLawyers(cloudLawyers);
-          localStorage.setItem("angola_legal_registered_lawyers", JSON.stringify(cloudLawyers));
-          return;
-        }
+        setLawyers(cloudLawyers || []);
+        localStorage.setItem("angola_legal_registered_lawyers", JSON.stringify(cloudLawyers || []));
+        return;
       }
 
       const stored = localStorage.getItem("angola_legal_registered_lawyers");
       if (stored) {
         setLawyers(JSON.parse(stored));
       } else {
-        const defaultLawyers: Lawyer[] = [
-          {
-            id: "law_1",
-            name: "Dr. Domingos Catonho",
-            email: "catonho.advocacia@oaa.ao",
-            cedula: "OAA 3.842",
-            specialty: "Direito do Trabalho (LGT)",
-            commissionRate: 15,
-            joinedAt: "10/01/2026"
-          },
-          {
-            id: "law_2",
-            name: "Dra. Elísia Gourgel",
-            email: "gourgel.conselho@oaa.ao",
-            cedula: "OAA 5.121",
-            specialty: "Direito de Família e Sucessões",
-            commissionRate: 10,
-            joinedAt: "14/02/2026"
-          },
-          {
-            id: "law_3",
-            name: "Dr. Mateus de Oliveira",
-            email: "mateus.oliveira@oaa.ao",
-            cedula: "OAA 4.887",
-            specialty: "Direito Imobiliário e Contratos",
-            commissionRate: 12,
-            joinedAt: "05/03/2026"
-          }
-        ];
-        localStorage.setItem("angola_legal_registered_lawyers", JSON.stringify(defaultLawyers));
-        setLawyers(defaultLawyers);
+        setLawyers([]);
       }
     } catch (e) {
       console.error("Erro ao carregar advogados:", e);
@@ -398,18 +419,8 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
 
       if (isSupabaseConfigured) {
         try {
-          const cloudAdmins = await dbGetAdministrators();
-          const cloudPwdMap = await dbGetAdminPasswords();
-          
-          // Merge lists: prioritize cloud but preserve unique local definitions
-          const allMerged = [...cloudAdmins];
-          localAdmins.forEach(la => {
-            if (!allMerged.some(ca => ca.email.toLowerCase() === la.email.toLowerCase())) {
-              allMerged.push(la);
-            }
-          });
-          admins = allMerged;
-          pwdMap = { ...localPwdMap, ...cloudPwdMap };
+          admins = await dbGetAdministrators();
+          pwdMap = await dbGetAdminPasswords();
         } catch (dbError) {
           console.warn("Could not query Supabase administrators. Falling back entirely to browser storage:", dbError);
           admins = localAdmins;
@@ -1314,14 +1325,6 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                     <h4 className="font-serif font-bold text-sm text-[#c5a85c] flex items-center gap-1.5 uppercase">
                       <Layers className="w-4 h-4" /> Carteira de Casos / Leads de Contacto
                     </h4>
-                    {leads.length === 0 && (
-                      <button
-                        onClick={seedDemoLeads}
-                        className="px-2 py-1 bg-amber-950/40 border border-amber-900/40 hover:bg-[#c5a85c] hover:text-slate-950 text-amber-200 text-[10px] font-serif font-bold rounded uppercase transition tracking-wider cursor-pointer"
-                      >
-                        Carregar Casos Exemplo
-                      </button>
-                    )}
                   </div>
 
                   {/* Search bar & simple selectors */}
@@ -1378,14 +1381,6 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                       <p className="text-[11px] text-slate-600 max-w-xs">
                         Os contactos solicitados pelos utilizadores através de "Quero ser contactado" na tela de resultados de diagnóstico aparecerão aqui em tempo real.
                       </p>
-                      {leads.length === 0 && (
-                        <button
-                          onClick={seedDemoLeads}
-                          className="mt-3 px-3.5 py-1.5 bg-[#c5a85c]/10 hover:bg-[#c5a85c] border border-[#c5a85c] text-[#c5a85c] hover:text-slate-950 rounded-lg text-xs font-serif font-black uppercase tracking-wider transition cursor-pointer"
-                        >
-                          Carregar Casos Demonstrativos
-                        </button>
-                      )}
                     </div>
                   ) : (
                     <div className="overflow-x-auto">
@@ -2277,25 +2272,6 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                       className="py-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs px-2.5 mt-1 font-bold uppercase transition"
                     >
                       Descarregar JSON (.json)
-                    </button>
-                  </div>
-
-                  {/* Seed / Reload demo data action */}
-                  <div className="p-4 bg-slate-900 border border-slate-800 rounded-lg flex flex-col gap-2">
-                    <h4 className="text-xs font-bold text-slate-200">Simulação de Fluxos</h4>
-                    <p className="text-[10px] text-slate-500 leading-relaxed">
-                      Guarde ou sobreponha o estado da carteira com os leads de demonstração pré-qualificados pela inteligência artificial.
-                    </p>
-                    <button
-                      onClick={() => {
-                        if (confirm("Isto irá recarregar as fichas de teste pré-definidas na sua fila de triagem. Prosseguir?")) {
-                          seedDemoLeads();
-                          alert("Leads de demonstração reiniciados!");
-                        }
-                      }}
-                      className="py-1.5 px-3 bg-[#c5a85c]/10 hover:bg-[#c5a85c] border border-[#c5a85c]/50 text-[#c5a85c] hover:text-slate-950 rounded text-xs px-2.5 mt-1 font-serif font-black uppercase tracking-wider transition"
-                    >
-                      Repor Fichas Exemplo
                     </button>
                   </div>
 

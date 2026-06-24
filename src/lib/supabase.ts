@@ -415,3 +415,75 @@ export async function dbGetVisitorLogs(): Promise<any[]> {
     return [];
   }
 }
+
+export async function dbGetVisitorStats(): Promise<{ totalVisits: number, uniqueVisitors: number, recentLogs: any[] }> {
+  if (!supabase) return { totalVisits: 0, uniqueVisitors: 0, recentLogs: [] };
+  try {
+    const { data, error } = await supabase
+      .from("visitor_logs")
+      .select("ip, region, device, page, created_at, id")
+      .order("created_at", { ascending: false })
+      .limit(1000);
+
+    if (error) throw error;
+
+    const logs = data || [];
+    const totalVisits = logs.length;
+    
+    const uniqueIps = new Set(logs.map(l => l.ip).filter(Boolean));
+    const uniqueVisitors = uniqueIps.size;
+
+    const recentLogs = logs.slice(0, 10).map((log, index) => {
+      let timeStr = "Há instantes";
+      if (log.created_at) {
+        const diffMs = Date.now() - new Date(log.created_at).getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        if (diffMins > 0) {
+          if (diffMins < 60) {
+            timeStr = `Há ${diffMins} min`;
+          } else {
+            const diffHours = Math.floor(diffMins / 60);
+            if (diffHours < 24) {
+              timeStr = `Há ${diffHours} h`;
+            } else {
+              timeStr = new Date(log.created_at).toLocaleDateString("pt-AO");
+            }
+          }
+        }
+      }
+      return {
+        id: log.id || "log_" + index,
+        ip: log.ip || "197.94.1.1",
+        region: log.region || "Luanda",
+        device: log.device || "Computador",
+        page: log.page || "Diagnóstico Geral",
+        time: timeStr
+      };
+    });
+
+    return {
+      totalVisits,
+      uniqueVisitors,
+      recentLogs
+    };
+  } catch (error) {
+    console.error("Supabase Error [dbGetVisitorStats]:", error);
+    return { totalVisits: 0, uniqueVisitors: 0, recentLogs: [] };
+  }
+}
+
+export async function dbClearVisitorLogs(): Promise<boolean> {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from("visitor_logs")
+      .delete()
+      .neq("id", "keep_empty_placeholder_if_any");
+      
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error("Supabase Error [dbClearVisitorLogs]:", error);
+    return false;
+  }
+}

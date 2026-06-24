@@ -30,6 +30,7 @@ import { LANGUAGES, UI_TRANSLATIONS, getTranslatedCategories, getTranslatedCitiz
 import { LegalCategory, Question, DiagnosisReport, CategoryInfo } from "./types";
 import LegalCalculators from "./components/LegalCalculators";
 import AdminPanel from "./components/AdminPanel";
+import { isSupabaseConfigured, dbSaveLead, dbLogVisitor } from "./lib/supabase";
 
 const CITIZEN_PROBLEMS = [
   {
@@ -457,6 +458,19 @@ export default function App() {
       stats.recentLogs = [newLog, ...(stats.recentLogs || [])].slice(0, 10);
 
       localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+
+      // Log directly to Supabase if configured
+      if (isSupabaseConfigured) {
+        dbLogVisitor({
+          id: newLog.id,
+          ip: newLog.ip,
+          region: newLog.region,
+          device: newLog.device,
+          page: newLog.page
+        }).catch(err => {
+          console.error("Erro ao registrar visitante no Supabase:", err);
+        });
+      }
     } catch (e) {
       console.error("Erro no rastreamento de visitantes:", e);
     }
@@ -627,7 +641,7 @@ export default function App() {
   };
 
   // Handle professional OAA consultation call request
-  const handleCallbackSubmit = (e: React.FormEvent) => {
+  const handleCallbackSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!callbackName.trim() || !callbackPhone.trim()) {
       alert("Por favor, preencha o seu Nome Completo e o seu contacto WhatsApp / Telefone.");
@@ -654,7 +668,7 @@ export default function App() {
         id: "lead_" + Date.now().toString(),
         name: callbackName.trim(),
         phone: callbackPhone.trim(),
-        category: activeReport?.category || selectedCategory || "geral",
+        category: (activeReport?.category || selectedCategory || "geral") as LegalCategory,
         categoryLabel: activeReport?.categoryLabel || "Dúvidas Gerais",
         date: new Date().toLocaleDateString("pt-AO"),
         status: "Pendente" as const,
@@ -663,6 +677,14 @@ export default function App() {
         answers: activeReport?.answers || formAnswers || {},
         diagnosisText: activeReport?.diagnosisText || currentDiagnosis || ""
       };
+
+      if (isSupabaseConfigured) {
+        try {
+          await dbSaveLead(newLead);
+        } catch (dbErr) {
+          console.error("Erro ao salvar lead no Supabase:", dbErr);
+        }
+      }
 
       const stored = localStorage.getItem("angola_legal_admin_leads");
       const currentLeads = stored ? JSON.parse(stored) : [];

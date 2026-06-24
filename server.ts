@@ -14,11 +14,12 @@ app.use(express.json());
 // Initialize Gemini client lazily to avoid crashing on startup if the key is missing
 let aiClient: GoogleGenAI | null = null;
 
-function getGeminiClient(): GoogleGenAI {
+function getGeminiClient(): GoogleGenAI | null {
   if (!aiClient) {
     const key = process.env.GEMINI_API_KEY;
     if (!key) {
-      throw new Error("GEMINI_API_KEY environment variable is missing. Please set it in Settings > Secrets.");
+      console.warn("GEMINI_API_KEY environment variable is missing.");
+      return null;
     }
     aiClient = new GoogleGenAI({
       apiKey: key,
@@ -375,7 +376,7 @@ Sua resposta DEVE ser estruturada estritamente em Markdown (usando títulos, lis
 
 **[Traduza: Força preliminar do caso]:** [Insira uma pontuação estimada de 1 a 100 de acordo com a solidez das declarações dele, ex: 82/100]
 
-**[Traduza: Valor potencial estimado]:** [Insira um valor estimado aproximado em Kwanzas (Kz) ou AOA calculado com base nos dados do caso. Se não houver dados específicos inseridos, utilize como simulação um cenário real de mercado angolano com salário base de 150.000 Kz para demonstrar o potencial financeiro de forma didática!]
+**[Traduza: Valor potencial estimado]:** [Insira um valor estimado aproximado em Kwanzas (Kz) ou AOA calculated com base nos dados do caso. Se não houver dados específicos inseridos, utilize como simulação um cenário real de mercado angolano com salário base de 150.000 Kz para demonstrar o potencial financeiro de forma didática!]
 
 #### 1. [Traduza: Resultado da IA (Como a Lei Analisa o seu Caso)]
 [Forneça um parágrafo claro de 3-4 frases identificando indícios favoráveis que justificam uma análise jurídica detalhada. Explique de forma simples e direta o mérito da questão e a base de sustentação legal na língua alvo.]
@@ -409,14 +410,25 @@ ${answersFormatted}
 
 Por favor, gere o diagnóstico completo exatamente em ${targetLanguageName} de acordo com as instruções.`;
 
-    const diagnosisText = await generateContentWithRetryAndFallback(
-      ai,
-      category,
-      answers,
-      systemInstruction,
-      promptString,
-      lang
-    );
+    let diagnosisText = "";
+    if (!ai) {
+      console.warn("[Gemini client] API key is missing. Rerouting to pristine static Angolano legal reporter.");
+      diagnosisText = generateStaticFallbackAssessment(category, answers, lang);
+    } else {
+      try {
+        diagnosisText = await generateContentWithRetryAndFallback(
+          ai,
+          category,
+          answers,
+          systemInstruction,
+          promptString,
+          lang
+        );
+      } catch (err: any) {
+        console.error("[Gemini client] Uncaught error during LLM generation. Falling back to static assessment:", err);
+        diagnosisText = generateStaticFallbackAssessment(category, answers, lang);
+      }
+    }
 
     return res.json({ diagnosis: diagnosisText });
   } catch (error: any) {
