@@ -2107,18 +2107,11 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                     </h4>
                     <div className="flex items-center gap-1.5">
                       <button
-                        onClick={handleSimulateVisitor}
-                        className="px-2.5 py-1 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-800/80 rounded text-[9px] uppercase font-mono font-bold transition flex items-center gap-1 cursor-pointer"
-                        title="Simular um novo acesso de cidadão angolano em tempo real"
-                      >
-                        <Plus className="w-2.5 h-2.5" /> Simular Visita
-                      </button>
-                      <button
                         onClick={handleResetVisitors}
-                        className="px-2 py-1 bg-slate-950 hover:bg-slate-850 text-slate-400 border border-slate-850 rounded text-[9px] uppercase font-mono font-bold transition cursor-pointer"
-                        title="Repor métricas ao padrão de teste"
+                        className="px-3 py-1 bg-rose-950/45 hover:bg-rose-900 text-rose-300 border border-rose-900/60 rounded text-[9px] uppercase font-mono font-bold transition cursor-pointer"
+                        title="Zerar estatísticas e registos do banco de dados"
                       >
-                        Limpar
+                        Limpar Telemetria
                       </button>
                     </div>
                   </div>
@@ -2131,7 +2124,7 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                         <Eye className="w-3 h-3 text-[#c5a85c]" />
                       </div>
                       <span className="text-sm font-mono font-black text-white block">
-                        {(visitorStats?.totalVisits || 1420).toLocaleString("pt-AO")}
+                        {(visitorStats?.totalVisits ?? 0).toLocaleString("pt-AO")}
                       </span>
                       <p className="text-[8px] text-slate-500 mt-0.5">Sessões totais registradas</p>
                     </div>
@@ -2142,7 +2135,7 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                         <Globe className="w-3 h-3 text-[#c5a85c]" />
                       </div>
                       <span className="text-sm font-mono font-black text-white block">
-                        {(visitorStats?.uniqueVisitors || 850).toLocaleString("pt-AO")}
+                        {(visitorStats?.uniqueVisitors ?? 0).toLocaleString("pt-AO")}
                       </span>
                       <p className="text-[8px] text-slate-500 mt-0.5">Identificadores únicos locais</p>
                     </div>
@@ -2150,7 +2143,7 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                     <div className="bg-slate-950 border border-slate-850 p-3 rounded-lg">
                       <span className="text-[8px] text-slate-400 font-semibold uppercase block mb-1">Taxa de Rejeição</span>
                       <span className="text-sm font-mono font-bold text-amber-500 block">
-                        {visitorStats?.bounceRate || 42.5}%
+                        {visitorStats?.bounceRate ?? 0}%
                       </span>
                       <p className="text-[8px] text-slate-500 mt-0.5">Saídas s/ interação profunda</p>
                     </div>
@@ -2161,7 +2154,7 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                         <Clock className="w-3 h-3 text-emerald-400 animate-pulse" />
                       </div>
                       <span className="text-sm font-mono font-bold text-emerald-400 block">
-                        {visitorStats?.avgDuration || "4m 32s"}
+                        {visitorStats?.avgDuration ?? "0s"}
                       </span>
                       <p className="text-[8px] text-slate-500 mt-0.5">Esforço médio na triagem IA</p>
                     </div>

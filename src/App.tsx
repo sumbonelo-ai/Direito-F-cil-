@@ -399,81 +399,132 @@ export default function App() {
 
   // Visitor Analytics Tracker Effect
   useEffect(() => {
-    try {
-      const VISITOR_COOKIE_KEY = "angola_legal_visitor_id";
-      const STATS_KEY = "angola_legal_visitors_stats";
+    const trackVisitor = async () => {
+      try {
+        const VISITOR_COOKIE_KEY = "angola_legal_visitor_id";
+        const STATS_KEY = "angola_legal_visitors_stats";
 
-      let visitorId = localStorage.getItem(VISITOR_COOKIE_KEY);
-      const isNewVisitor = !visitorId;
-      if (isNewVisitor) {
-        visitorId = "vis_" + Math.random().toString(36).substring(2, 11);
-        localStorage.setItem(VISITOR_COOKIE_KEY, visitorId);
-      }
+        let visitorId = localStorage.getItem(VISITOR_COOKIE_KEY);
+        const isNewVisitor = !visitorId;
+        if (isNewVisitor) {
+          visitorId = "vis_" + Math.random().toString(36).substring(2, 11);
+          localStorage.setItem(VISITOR_COOKIE_KEY, visitorId);
+        }
 
-      const storedStats = localStorage.getItem(STATS_KEY);
-      let stats = storedStats ? JSON.parse(storedStats) : null;
+        const storedStats = localStorage.getItem(STATS_KEY);
+        let stats = storedStats ? JSON.parse(storedStats) : null;
 
-      // Reset statistics if empty or they are still holding old fake default values
-      if (!stats || stats.totalVisits === 1420 || stats.uniqueVisitors === 850) {
-        // Seed clean starting indicators
-        stats = {
-          totalVisits: 0,
-          uniqueVisitors: 0,
-          bounceRate: 0,
-          avgDuration: "0s",
-          recentLogs: []
+        // Reset statistics if empty or holding old fake defaults
+        if (!stats || stats.totalVisits === 1420 || stats.uniqueVisitors === 850) {
+          stats = {
+            totalVisits: 0,
+            uniqueVisitors: 0,
+            bounceRate: 0,
+            avgDuration: "0s",
+            recentLogs: []
+          };
+        }
+
+        // Always increment total visits on page mount or navigation
+        stats.totalVisits = (stats.totalVisits || 0) + 1;
+
+        if (isNewVisitor) {
+          stats.uniqueVisitors = (stats.uniqueVisitors || 0) + 1;
+        }
+
+        // Detect real page name
+        const pageNames: Record<string, string> = {
+          diagnosis: "Diagnóstico Jurídico",
+          calculators: "Calculadoras de Direito",
+          admin: "Painel de Administração"
         };
+        const currentPageName = pageNames[activeScreen] || "Diagnóstico Geral";
+
+        // Parse user agent to get real device and browser details
+        const ua = navigator.userAgent;
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+        let os = "Computador";
+        if (/iPhone|iPad|iPod/i.test(ua)) os = "iOS";
+        else if (/Android/i.test(ua)) os = "Android";
+        else if (/Windows/i.test(ua)) os = "Windows";
+        else if (/Macintosh/i.test(ua)) os = "macOS";
+        else if (/Linux/i.test(ua)) os = "Linux";
+
+        let browser = "";
+        if (/Chrome/i.test(ua)) browser = "Chrome";
+        else if (/Firefox/i.test(ua)) browser = "Firefox";
+        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+        else if (/Edge/i.test(ua)) browser = "Edge";
+        else browser = "Navegador";
+
+        const realDevice = isMobile ? `Telemóvel (${os})` : `${os} (${browser})`;
+
+        // Get actual IP and Region/City from a secure free API
+        let realIp = "IP Ocultado";
+        let realRegion = "Angola";
+
+        try {
+          const geoRes = await fetch("https://ipapi.co/json/").catch(() => null);
+          if (geoRes && geoRes.ok) {
+            const geoData = await geoRes.ok ? await geoRes.json() : null;
+            if (geoData) {
+              realIp = geoData.ip || "IP Ocultado";
+              realRegion = geoData.city && geoData.country_name
+                ? `${geoData.city}, ${geoData.country_name}`
+                : geoData.region || geoData.country_name || "Angola";
+            }
+          } else {
+            // Fallback: fast IP-only API
+            const ipifyRes = await fetch("https://api.ipify.org?format=json").catch(() => null);
+            if (ipifyRes && ipifyRes.ok) {
+              const ipifyData = await ipifyRes.json();
+              realIp = ipifyData.ip || "IP Ocultado";
+            }
+            const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if (tz && tz.toLowerCase().includes("luanda")) {
+              realRegion = "Luanda, Angola";
+            }
+          }
+        } catch (apiErr) {
+          console.warn("Could not retrieve geolocation IP:", apiErr);
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          if (tz && tz.toLowerCase().includes("luanda")) {
+            realRegion = "Luanda, Angola";
+          }
+        }
+
+        const newLog = {
+          id: "log_" + Date.now(),
+          ip: realIp,
+          region: realRegion,
+          device: realDevice,
+          time: "Agora mesmo",
+          page: currentPageName
+        };
+
+        // Push and slice to max 10
+        stats.recentLogs = [newLog, ...(stats.recentLogs || [])].slice(0, 10);
+
+        localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+
+        // Log directly to Supabase if configured
+        if (isSupabaseConfigured) {
+          dbLogVisitor({
+            id: newLog.id,
+            ip: newLog.ip,
+            region: newLog.region,
+            device: newLog.device,
+            page: newLog.page
+          }).catch(err => {
+            console.error("Erro ao registrar visitante no Supabase:", err);
+          });
+        }
+      } catch (e) {
+        console.error("Erro no rastreamento de visitantes:", e);
       }
+    };
 
-      // Always increment total visits on page mount or navigation
-      stats.totalVisits = (stats.totalVisits || 0) + 1;
-
-      if (isNewVisitor) {
-        stats.uniqueVisitors = (stats.uniqueVisitors || 0) + 1;
-      }
-
-      // Add a fresh real-time entry for current visitor session to recentLogs (capped to 10 entries)
-      const regions = ["Luanda", "Lubango", "Benguela", "Huambo", "Cabinda", "Lobito", "Malanje"];
-      const devices = ["Telemóvel (Android)", "Telemóvel (iOS)", "Computador (Chrome)", "Computador (Safari)", "Computador (Firefox)"];
-      const randomRegion = regions[Math.floor(Math.random() * regions.length)];
-      const randomDevice = devices[Math.floor(Math.random() * devices.length)];
-      const randomIp = `197.94.${Math.floor(Math.random() * 254) + 1}.${Math.floor(Math.random() * 254) + 1}`;
-      
-      const pageNames: Record<string, string> = {
-        diagnosis: "Diagnóstico Jurídico",
-        calculators: "Calculadoras de Direito",
-        admin: "Painel de Administração"
-      };
-      
-      const newLog = {
-        id: "log_" + Date.now(),
-        ip: randomIp,
-        region: randomRegion,
-        device: randomDevice,
-        time: "Agora mesmo",
-        page: pageNames[activeScreen] || "Diagnóstico Geral"
-      };
-
-      // Push and slice to max 10
-      stats.recentLogs = [newLog, ...(stats.recentLogs || [])].slice(0, 10);
-
-      localStorage.setItem(STATS_KEY, JSON.stringify(stats));
-
-      // Log directly to Supabase if configured
-      if (isSupabaseConfigured) {
-        dbLogVisitor({
-          id: newLog.id,
-          ip: newLog.ip,
-          region: newLog.region,
-          device: newLog.device,
-          page: newLog.page
-        }).catch(err => {
-          console.error("Erro ao registrar visitante no Supabase:", err);
-        });
-      }
-    } catch (e) {
-      console.error("Erro no rastreamento de visitantes:", e);
-    }
+    trackVisitor();
   }, [activeScreen]);
 
   // Cycle loading messages when generating diagnosis
